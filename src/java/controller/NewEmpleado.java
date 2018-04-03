@@ -37,18 +37,24 @@ public class NewEmpleado extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //Recorremos lass variables del formulario
-        String nombreusuario = request.getParameter("nombreusuario");
-        String nombrecompleto = request.getParameter("nombrecompleto");
+        String nombreusuario = request.getParameter("nombreUsuario");
+        String nombrecompleto = request.getParameter("nombreCompleto");
         String password = request.getParameter("password");
+        String password2 = request.getParameter("password2");
         String telefono = request.getParameter("telefono");
         String ciudad = request.getParameter("ciudad");
         
         
         Empleado c = new Empleado(nombreusuario, password, nombrecompleto, telefono, ciudad);
         try {
-            miEjb.altaEmpleado(c);
+            if(!password.equals(password2)){
+                throw new exceptionJPA("Las contraseñas no coinciden");
+            }else{
+              miEjb.altaEmpleado(c);
             //Si el alta ha ido bien devolvemos msg ok
-            request.setAttribute("status", "Empleado dado de alta");
+            request.setAttribute("status", "Empleado dado de alta");    
+            }
+            
         } catch (exceptionJPA ex) {
             //Devolvemos mensaje de la excepcion a la vista
             request.setAttribute("status", ex.getMessage());
