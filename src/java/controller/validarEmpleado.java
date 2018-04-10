@@ -9,9 +9,10 @@ import entities.Empleado;
 import exception.exceptionJPA;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,10 +22,11 @@ import model.incidenciasEJB;
  *
  * @author pablourbano
  */
-@WebServlet(name = "NewEmpleado2", urlPatterns = {"/NewEmpleado2"})
-public class NewEmpleado extends HttpServlet {
+public class validarEmpleado extends HttpServlet {
 
-    @EJB incidenciasEJB miEjb;
+    @EJB
+    incidenciasEJB miEjb;
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -33,34 +35,27 @@ public class NewEmpleado extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
+     * @throws exception.exceptionJPA
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws exceptionJPA, IOException, ServletException {
+
         //Recorremos lass variables del formulario
         String nombreusuario = request.getParameter("nombreUsuario");
-        String nombrecompleto = request.getParameter("nombreCompleto");
         String password = request.getParameter("password");
-        String password2 = request.getParameter("password2");
-        String telefono = request.getParameter("telefono");
-        String ciudad = request.getParameter("ciudad");
-        
-        
-        Empleado c = new Empleado(nombreusuario, password, nombrecompleto, telefono, ciudad);
-        try {
-            if(!password.equals(password2)){
-                throw new exceptionJPA("Las contraseñas no coinciden");
-            }else{
-              miEjb.altaEmpleado(c);
-            //Si el alta ha ido bien devolvemos msg ok
-            request.setAttribute("status", "Empleado dado de alta");    
+
+        if (miEjb.validarEmpleado(nombreusuario, password) == true) {
+            Empleado empleado = miEjb.buscarEmpleado(nombreusuario);
+            if (empleado.getNombreusuario().equals("admin")) { 
+                request.getSession(true).setAttribute("empleado", empleado);
+                response.sendRedirect(request.getContextPath() + "/menuAdmin.jsp");
+            } else {
+                request.getSession(true).setAttribute("empleado", empleado);
+                response.sendRedirect(request.getContextPath() + "/menuUsuario.jsp");
             }
-            
-        } catch (exceptionJPA ex) {
-            //Devolvemos mensaje de la excepcion a la vista
-            request.setAttribute("status", ex.getMessage());
+        } else {
+            request.getRequestDispatcher("/final.jsp").forward(request, response);
         }
-        //redirigimos a la vista final.jsp en este caso
-        request.getRequestDispatcher("/final.jsp").forward(request, response);
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -75,7 +70,11 @@ public class NewEmpleado extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (exceptionJPA ex) {
+            Logger.getLogger(validarEmpleado.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -89,7 +88,11 @@ public class NewEmpleado extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (exceptionJPA ex) {
+            Logger.getLogger(validarEmpleado.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

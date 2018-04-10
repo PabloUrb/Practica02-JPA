@@ -6,18 +6,17 @@ and open the template in the editor.
 -->
 <html>
     <head>
-        <title>Holita</title>
+        <title>TODO supply a title</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <div>Menu principal de la aplicacion </div>
-        <form action="altaEmpleado.html">
-            <input type="submit" value="Nuevo Empleado"/>
-        </form>
-        <form action="validarEmpleado.html">
-            <input type="submit" value="Validar Empleado"/>
+        <h1>Inicia sesion</h1>
+        <form method="POST" action="validarEmpleado">
+            <p>Nombre Usuario: <input type="text" name="nombreUsuario" required></p>
+            <p>Password: <input type="password" name="password" required></p>
+            
+            <p><input type="submit" value="Alta"></p>
         </form>
     </body>
 </html>
-
