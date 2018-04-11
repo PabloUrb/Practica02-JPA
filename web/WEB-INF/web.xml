@@ -4,9 +4,25 @@
         <servlet-name>validarEmpleado</servlet-name>
         <servlet-class>controller.validarEmpleado</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>invidenciasEnviadas</servlet-name>
+        <servlet-class>controller.invidenciasEnviadas</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>incidenciasRecividas</servlet-name>
+        <servlet-class>controller.incidenciasRecividas</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>validarEmpleado</servlet-name>
         <url-pattern>/validarEmpleado</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>invidenciasEnviadas</servlet-name>
+        <url-pattern>/invidenciasEnviadas</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>incidenciasRecividas</servlet-name>
+        <url-pattern>/incidenciasRecividas</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

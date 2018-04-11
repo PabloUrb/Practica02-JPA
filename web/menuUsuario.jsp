@@ -17,7 +17,7 @@
             Empleado e = (Empleado) session.getAttribute("empleado");
             if (e != null) {
         %>
-        <h1>Hello <%=e.getNombreusuario()%></h1>
+        <h1>Hola <%=e.getNombreusuario()%></h1>
         <form action="altaEmpleado.html">
             <input type="submit" value="Modificar perfil"/>
         </form>
@@ -27,10 +27,10 @@
         <form action="altaEmpleado.html">
             <input type="submit" value="Crear una incidencias"/>
         </form>
-        <form action="altaEmpleado.html">
+        <form action="incidenciasRecividas">
             <input type="submit" value="Incidencias recividas"/>
         </form>
-        <form action="altaEmpleado.html">
+        <form action="invidenciasEnviadas">
             <input type="submit" value="Incidencias enviadas"/>
         </form>
         <form action="altaEmpleado.html">
