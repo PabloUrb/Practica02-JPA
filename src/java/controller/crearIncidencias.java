@@ -7,12 +7,15 @@ package controller;
 
 import entities.Empleado;
 import entities.Historial;
+import entities.Incidencia;
 import exception.exceptionJPA;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.ZonedDateTime;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.Calendar;
+import java.util.Date;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -24,11 +27,9 @@ import model.incidenciasEJB;
  *
  * @author pablourbano
  */
-public class validarEmpleado extends HttpServlet {
+public class crearIncidencias extends HttpServlet {
 
-    @EJB
-    incidenciasEJB miEjb;
-
+    @EJB incidenciasEJB miEjb;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -37,33 +38,36 @@ public class validarEmpleado extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
-     * @throws exception.exceptionJPA
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws exceptionJPA, IOException, ServletException {
-
-        //Recorremos lass variables del formulario
-        String nombreusuario = request.getParameter("nombreUsuario");
-        String password = request.getParameter("password");
-
-        if (miEjb.validarEmpleado(nombreusuario, password) == true) {
-            Empleado empleado = miEjb.buscarEmpleado(nombreusuario);
-            Historial hist = new Historial(null, "I", ZonedDateTime.now().toString(), empleado);
-            try {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        Empleado em = (Empleado) request.getSession().getAttribute("empleado");
+        String destino = request.getParameter("destino");
+        Empleado dest = miEjb.buscarEmpleado(destino);
+        String tipo = request.getParameter("tipo");
+        String detalle = request.getParameter("detalle");
+        int max = miEjb.maximoIdIncidencia();
+        int max1=max+1;
+        String fechahora = ZonedDateTime.now().toString();
+        
+        
+        Incidencia c = new Incidencia(max1, fechahora, detalle, tipo, dest ,em);
+        try {
+            if(c.getTipo().equals("urgente")){
+                Historial hist = new Historial(null, "U", ZonedDateTime.now().toString(), em);
                 miEjb.crearEvento(hist);
-            } catch (exceptionJPA ex) {
-                Logger.getLogger(incidenciasRecividas.class.getName()).log(Level.SEVERE, null, ex);
             }
-            if (empleado.getNombreusuario().equals("admin")) {
-                request.getSession(true).setAttribute("empleado", empleado);
-                response.sendRedirect(request.getContextPath() + "/menuAdmin.jsp");
-            } else {
-                request.getSession(true).setAttribute("empleado", empleado);
-                response.sendRedirect(request.getContextPath() + "/menuUsuario.jsp");
-            }
-        } else {
-            request.getRequestDispatcher("/final.jsp").forward(request, response);
+              miEjb.crearIncidencias(c);
+            //Si el alta ha ido bien devolvemos msg ok
+            request.setAttribute("status", "Creada inciden cia");    
+            
+            
+        } catch (exceptionJPA ex) {
+            //Devolvemos mensaje de la excepcion a la vista
+            request.setAttribute("status", ex.getMessage());
         }
-
+        //redirigimos a la vista final.jsp en este caso
+        request.getRequestDispatcher("/final.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -78,11 +82,7 @@ public class validarEmpleado extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (exceptionJPA ex) {
-            Logger.getLogger(validarEmpleado.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**
@@ -96,11 +96,7 @@ public class validarEmpleado extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (exceptionJPA ex) {
-            Logger.getLogger(validarEmpleado.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**

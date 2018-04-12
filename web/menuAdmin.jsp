@@ -21,7 +21,7 @@
         <form action="altaEmpleado.html">
             <input type="submit" value="Eliminar usuarios"/>
         </form>
-        <form action="altaEmpleado.html">
+        <form action="listadoIncidencias">
             <input type="submit" value="Listado incidencias"/>
         </form>
         <form action="altaEmpleado.html">
@@ -29,6 +29,24 @@
         </form>
         <form action="altaEmpleado.html">
             <input type="submit" value="Rancking users"/>
+        </form>
+        <form action="altaEmpleado.html">
+            <input type="submit" value="Modificar perfil"/>
+        </form>
+        <form action="altaEmpleado.html">
+            <input type="submit" value="Canviar contraseña"/>
+        </form>
+        <form action="listadoEmpleados">
+            <input type="submit" value="Crear una incidencias"/>
+        </form>
+        <form action="incidenciasRecividas">
+            <input type="submit" value="Incidencias recividas"/>
+        </form>
+        <form action="invidenciasEnviadas">
+            <input type="submit" value="Incidencias enviadas"/>
+        </form>
+        <form action="altaEmpleado.html">
+            <input type="submit" value="Mi posicion en el rancking"/>
         </form>
         <%} else {
         %><h1>esto no furula</h1>

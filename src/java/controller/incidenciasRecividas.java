@@ -6,10 +6,15 @@
 package controller;
 
 import entities.Empleado;
+import entities.Historial;
 import entities.Incidencia;
+import exception.exceptionJPA;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -39,6 +44,14 @@ public class incidenciasRecividas extends HttpServlet {
             throws ServletException, IOException {
         Empleado em = (Empleado) request.getSession().getAttribute("empleado");
         List<Incidencia> incidencias = (List<Incidencia>) miEjb.incidenciasRecividas(em);
+        
+                Historial hist = new Historial(null, "C", ZonedDateTime.now().toString(), em);
+        try {
+            miEjb.crearEvento(hist);
+        } catch (exceptionJPA ex) {
+            Logger.getLogger(incidenciasRecividas.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            
         request.setAttribute("Incidencias", incidencias);
         request.getRequestDispatcher("/incidenciasRecividas.jsp").forward(request, response);
     }

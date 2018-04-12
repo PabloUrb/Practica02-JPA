@@ -68,6 +68,15 @@ public class Historial implements Serializable {
         this.fechahora = fechahora;
     }
 
+    public Historial(Integer idevento, String tipo, String fechahora, Empleado empleado) {
+        this.idevento = idevento;
+        this.tipo = tipo;
+        this.fechahora = fechahora;
+        this.empleado = empleado;
+    }
+    
+    
+
     public Integer getIdevento() {
         return idevento;
     }
