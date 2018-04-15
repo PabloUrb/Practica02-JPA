@@ -64,10 +64,38 @@ public class incidenciasEJB {
     }
 
     public Empleado buscarEmpleado(String nombre) {
-        EntityManager em = emf.createEntityManager();
-        Empleado e = em.find(Empleado.class, nombre);
+        EntityManager em = null;
+        em = emf.createEntityManager();
+        Empleado e2;
+        e2 = em.find(Empleado.class, nombre);
         em.close();
-        return e;
+        return e2;
+
+        /*
+        Empleado e = new Empleado();
+        Query q;
+        q = emf.createEntityManager().createQuery("SELECT e FROM Empleado e WHERE e.nombreusuario = :empleado");
+        q.setParameter("empleado", nombre);
+        return (Empleado) q.getResultList();*/
+    }
+
+    public void cambiarContra(Empleado e) {
+        Query q;
+        q = emf.createEntityManager().createQuery("UPDATE Empleado SET password= :pas WHERE nombreusuario= :nombr");
+        q.setParameter("nombr", e.getNombreusuario());
+        q.setParameter("pas", e.getPassword());
+        q.executeUpdate();
+    }
+
+    public void eliminarEmpleado(String username) throws exceptionJPA {
+        EntityManager em = emf.createEntityManager();
+        Empleado e = em.find(Empleado.class, username);
+        if (e == null) {
+            em.close();
+            throw new exceptionJPA("El empleado no existe");
+        }
+        em.remove(e);
+        em.close();
     }
 
     public List<Incidencia> incidenciasEnviadas(Empleado e) {
@@ -90,6 +118,7 @@ public class incidenciasEJB {
         return q.getResultList();
 
     }
+
     public List<Empleado> listadoEmpleados() {
         Query q;
         q = emf.createEntityManager().createNamedQuery("Empleado.findAll");
@@ -109,20 +138,49 @@ public class incidenciasEJB {
         }
     }
 
+    public List<Empleado> rankingEmpleados() {
+        EntityManager em = emf.createEntityManager();
+        Query q = em.createQuery("SELECT h.empleado FROM Historial h WHERE h.tipo='U' GROUP BY h.empleado ORDER BY count(h)");        
+        List<Empleado> a = q.getResultList();
+        em.close();
+        return a;
+    }
+
+    public List<Empleado> todosEmpleados() throws exceptionJPA {
+        EntityManager em = emf.createEntityManager();
+        return em.createNamedQuery("Empleado.findAll").getResultList();
+    }
+
     public Integer maximoIdIncidencia() {
         Integer a;
         Query q;
         q = emf.createEntityManager().createQuery("SELECT max(i.idincidencia) FROM Incidencia i");
-        
+
         if (q.getSingleResult() == null) {
             a = 0;
             return a;
         } else {
-            a= (int) q.getSingleResult();
+            a = (int) q.getSingleResult();
             return a;
         }
     }
-    public void crearEvento(Historial h) throws exceptionJPA{
+
+    public int miPosicions(Empleado e) throws exceptionJPA {
+        EntityManager em = emf.createEntityManager();
+        List<Empleado> empleados = em.createQuery("SELECT h.empleado FROM Historial h WHERE h.tipo='U' GROUP BY h.empleado ORDER BY count(h)").getResultList();
+        int i = 1;
+        for (Empleado empleado : empleados) {
+            if (e.getNombreusuario().equals(e.getNombreusuario())) {
+                em.close();
+                return i;
+            }
+            i++;
+        }
+        em.close();
+        throw new exceptionJPA("El usuario no se ha logeado nunca");
+    }
+
+    public void crearEvento(Historial h) throws exceptionJPA {
         EntityManager em = emf.createEntityManager();
         //Comprovamos si existe empleado
         Empleado aux = em.find(Empleado.class, h.getEmpleado().getNombreusuario());
@@ -131,6 +189,30 @@ public class incidenciasEJB {
             throw new exceptionJPA("El empleado no existe");
         }
         em.persist(h);
-        em.close(); 
+        em.close();
+    }
+
+    public void modificarEmpleado(Empleado e) {
+        EntityManager em = emf.createEntityManager();
+        Query q = em.createQuery("UPDATE Empleado SET nombrecompleto= :nombrec, telefono= :tel, ciudad= :ciu WHERE nombreusuario= :nombreu");
+        q.setParameter("nombrec", e.getNombrecompleto());
+        q.setParameter("tel", e.getTelefono());
+        q.setParameter("ciu", e.getCiudad());
+        q.setParameter("nombreu", e.getNombreusuario());
+        q.executeUpdate();
+        em.close();
+    }
+
+    public Historial ultimaConec(Empleado e) throws exceptionJPA {
+        EntityManager em = emf.createEntityManager();
+        Query q = em.createQuery("SELECT h FROM Historial h WHERE h.tipo='I' AND h.empleado = :empleado ORDER BY h.fechahora DESC");
+        q.setParameter("empleado", e);
+        if (q.getResultList().isEmpty()) {
+            em.close();
+            throw new exceptionJPA("El usuario no se ha logeado nunca");
+        }
+        Historial a =  (Historial) q.getResultList().get(0);
+        em.close();
+        return a;
     }
 }

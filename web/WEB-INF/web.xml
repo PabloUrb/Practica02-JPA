@@ -24,6 +24,46 @@
         <servlet-name>listadoEmpleados</servlet-name>
         <servlet-class>controller.listadoEmpleados</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>cambiarContraseña</servlet-name>
+        <servlet-class>controller.cambiarContraseñas</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>cambiarContraseñas</servlet-name>
+        <servlet-class>controller.cambiarContraseñas</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>cambiarContra</servlet-name>
+        <servlet-class>controller.cambiarContra</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>cerrarSesion</servlet-name>
+        <servlet-class>controller.cerrarSesion</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>eliminarEmpleado</servlet-name>
+        <servlet-class>controller.eliminarEmpleado</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>modificarEmpleado</servlet-name>
+        <servlet-class>controller.modificarEmpleado</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>miPosicion</servlet-name>
+        <servlet-class>controller.miPosicion</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>rankingEmpleados</servlet-name>
+        <servlet-class>controller.rankingEmpleados</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>deleteFinal</servlet-name>
+        <servlet-class>controller.deleteFinal</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ultimaConexion</servlet-name>
+        <servlet-class>controller.ultimaConexion</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>validarEmpleado</servlet-name>
         <url-pattern>/validarEmpleado</url-pattern>
@@ -47,6 +87,46 @@
     <servlet-mapping>
         <servlet-name>listadoEmpleados</servlet-name>
         <url-pattern>/listadoEmpleados</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>cambiarContraseña</servlet-name>
+        <url-pattern>/cambiarContrase_a</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>cambiarContraseñas</servlet-name>
+        <url-pattern>/cambiarContrase_as</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>cambiarContra</servlet-name>
+        <url-pattern>/cambiarContra</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>cerrarSesion</servlet-name>
+        <url-pattern>/cerrarSesion</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>eliminarEmpleado</servlet-name>
+        <url-pattern>/eliminarEmpleado</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>modificarEmpleado</servlet-name>
+        <url-pattern>/modificarEmpleado</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>miPosicion</servlet-name>
+        <url-pattern>/miPosicion</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>rankingEmpleados</servlet-name>
+        <url-pattern>/rankingEmpleados</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>deleteFinal</servlet-name>
+        <url-pattern>/deleteFinal</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ultimaConexion</servlet-name>
+        <url-pattern>/ultimaConexion</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

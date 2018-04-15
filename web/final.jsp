@@ -11,18 +11,18 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>incidencias</title>
     </head>
-    <body>
-        <%
-          
-          String status = (String) request.getAttribute("status");
-          
-          if(status != null){
-              
-        %>
-              <h1><%=status%></h1>
-        <%
-          }
-        %>
-        <h1>Hello World!</h1>
-    </body>
+
+    <%
+
+        String status = (String) request.getAttribute("status");
+
+        if (status != null) {
+
+    %>
+    <h1><%=status%></h1>
+    <%
+        }
+    %>
+
+
 </html>

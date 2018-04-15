@@ -18,13 +18,13 @@
             if (e != null) {
         %>
         <h1>Hola <%=e.getNombreusuario()%></h1>
-        <form action="altaEmpleado.html">
+        <form action="modificarEmpleado.jsp">
             <input type="submit" value="Modificar perfil"/>
         </form>
-        <form action="altaEmpleado.html">
-            <input type="submit" value="Canviar contraseña"/>
+        <form action="cambiarContraseña.jsp">
+            <input type="submit" value="Cambiar contraseña"/>
         </form>
-        <form action="altaEmpleado.html">
+        <form action="listadoEmpleados">
             <input type="submit" value="Crear una incidencias"/>
         </form>
         <form action="incidenciasRecividas">
@@ -33,8 +33,11 @@
         <form action="invidenciasEnviadas">
             <input type="submit" value="Incidencias enviadas"/>
         </form>
-        <form action="altaEmpleado.html">
+        <form action="miPosicion">
             <input type="submit" value="Mi posicion en el rancking"/>
+        </form>
+        <form action="cerrarSesion">
+            <input type="submit" value="Cerrar Sesion"/>
         </form>
         <%} else {
         %><h1>esto no furula</h1>

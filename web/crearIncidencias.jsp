@@ -23,17 +23,17 @@
         <form method="POST" action="crearIncidencias"> 
             <%if (empleados.size() != 0) {%>
             Destinatario:
-            <select name="tipo">
-                
+            <select name="destino">
+
                 <%for (Empleado em : empleados) {%>
 
-                <option value="<% em.getNombreusuario(); %>"><%= em.getNombreusuario() %></option> 
+                <option value="<%= em.getNombreusuario()%>"><%= em.getNombreusuario()%></option> 
 
                 <%}%>
             </select>
-            <%}else{%>
-no hay empleados
-<% } %>
+            <%} else {%>
+            no hay empleados
+            <% } %>
             <p>Tipo:
                 <select name="tipo">
                     <option value="urgente">Urgente</option>
